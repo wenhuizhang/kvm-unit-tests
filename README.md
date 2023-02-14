@@ -1,62 +1,44 @@
 # Welcome to kvm-unit-tests
 
-See http://www.linux-kvm.org/page/KVM-unit-tests for a high-level
-description of this project, as well as running tests and adding
-tests HOWTOs.
+http://www.linux-kvm.org/page/KVM-unit-tests 
+
+list of benchmarks: https://github.com/wenhuizhang/kvm-unit-tests/blob/wenhui/Benchmarks.md
+
 
 # Building the tests
 
-This directory contains sources for a KVM test suite.
-
-To create the test images do:
-
+```
     ./configure
     make
+```
 
-in this directory.  Test images are created in ./ARCH/\*.flat
+in this directory.  Test images are created in `./ARCH/\*.flat`
 
-NOTE: GCC cross-compiler is required for [build on macOS](README.macOS.md).
 
-## Standalone tests
-
-The tests can be built as standalone.  To create and use standalone tests do:
+Standalone tests
+```
 
     ./configure
     make standalone
     (send tests/some-test somewhere)
     (go to somewhere)
     ./some-test
+```
 
-`make install` will install all tests in PREFIX/share/kvm-unit-tests/tests,
-each as a standalone test.
+`make install` will install all tests in `PREFIX/share/kvm-unit-tests/tests`. 
 
 
 # Running the tests
 
-Then use the runner script to detect the correct invocation and
-invoke the test:
-
-    ./x86-run ./x86/msr.flat
-or:
-
+```
+    QEMU=/tmp/qemu/x86_64-softmmu/qemu-system-x86_64 ACCEL=kvm ./x86-run ./x86/msr.flat
     ./run_tests.sh
+```
 
-to run them all.
-
-By default the runner script searches for a suitable QEMU binary in the system.
-To select a specific QEMU binary though, specify the QEMU=path/to/binary
-environment variable:
-
-    QEMU=/tmp/qemu/x86_64-softmmu/qemu-system-x86_64 ./x86-run ./x86/msr.flat
-
-To select an accelerator, for example "kvm", "hvf" or "tcg", specify the
-ACCEL=name environment variable:
-
-    ACCEL=kvm ./x86-run ./x86/msr.flat
 
 For running tests that involve migration from one QEMU instance to another
 you also need to have the "ncat" binary (from the nmap.org project) installed,
-otherwise the related tests will be skipped.
+
 
 ## Running the tests with UEFI
 
